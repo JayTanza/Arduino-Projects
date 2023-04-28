@@ -2,6 +2,8 @@
 LiquidCrystal_I2C lcd(0x27,16,2);
 
 int coin = 0;
+int cash = 0;
+int value = 0;
 
 void Display_Main()
 {
@@ -15,6 +17,15 @@ void Display_Main()
   lcd.print(coin);
 }
 
+void Display_TotalIncome(){
+  lcd.begin();
+  lcd.backlight();
+  lcd.setCursor(0,0);
+  lcd.print("TotalIncome:");
+  lcd.setCursor(2,1);
+  lcd.print(value);
+}
+
 void Display_InsertCoin()
 {
   lcd.begin();
@@ -24,6 +35,7 @@ void Display_InsertCoin()
   lcd.setCursor(2,1);
   lcd.print(coin);
 }
+
 void Display_NoChange()
 {
   lcd.begin();
@@ -31,6 +43,7 @@ void Display_NoChange()
   lcd.setCursor(0,0);
   lcd.print("NO CHANGE!");
 }
+
 void coinInserted()
 {
   coin += 1;
@@ -38,5 +51,5 @@ void coinInserted()
 
 void coinDispense()
 {
-  coin = coin - coin;
+  coin = coin - 2;
 }
