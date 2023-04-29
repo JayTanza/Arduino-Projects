@@ -94,40 +94,40 @@ void onChange(byte aID, unsigned aPrice){
     case 2: moduley = module_3;
     break;   
   }
-  while (coin >= aPrice) {
-    if(coin >= SelectedPrice){
-        coin = coin - aPrice;
-        c10++;
-        moduley.Servomove();
-        Serial.print("cash=");
-        Serial .print(coin);
-        Serial.print(", counter10=");
-        Serial.println(c10);
+  if (!buttonPressed) {
+    // wait for button press here
+    if (digitalRead(buttonPin) == HIGH) {
+      buttonPressed = true;
     }
-    else if(coin >= SelectedPrice){
-        coin = coin - aPrice;
-        c5++;
-        moduley.Servomove();
-        Serial.print("cash=");
-        Serial .print(coin);
-        Serial.print(", counter5=");
-        Serial.println(c5);
-    }
-    else if(coin >= SelectedPrice){
-        coin = coin - aPrice;
-        c1++;
-        moduley.Servomove();
-        Serial.print("cash=");
-        Serial.print(coin);
-        Serial.print(", counter1=");
-        Serial.println(c1);
-    }
+    return; // exit loop until button is pressed
   }
-  if(coin <= SelectedPrice){
+  
+  if (coin >= SelectedPrice) {
+    while (coin >= aPrice && coin >= SelectedPrice) {
+      coin = coin - aPrice;
+      c5++;
+      moduley.Servomove();
+      Serial.print("Cash = ");
+      Serial.print(coin);
+      Serial.print(", Counter 5 = ");
+      Serial.println(c5);
+    }
+    while (coin >= 1 && coin >= SelectedPrice) {
+      coin = coin - 1;
+      c1++;
+      moduley.Servomove();
+      Serial.print("Cash = ");
+      Serial.print(coin);
+      Serial.print(", Counter 1 = ");
+      Serial.println(c1);
+    }
     Serial.print("No Credit Change!");
     Display_NoChange();
     Serial.println("done");
-  } 
+    // call a function to dispense the item here
+    coin = 0; // reset coin to 0 after dispensing
+    buttonPressed = false; // reset buttonPressed to false after dispensing
+  }
 }
 
 void TOTAL_INCOME(){
