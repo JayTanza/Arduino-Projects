@@ -76,7 +76,7 @@ void TType::run(void onDispense(byte aID, unsigned aPrice)){
         coinDispensed();
         isRelayOn = true;
         Relay();
-        DisplayLoading();
+        DisplayLoading(WATER_LEVEL);
         delay(4000);
         isRelayOn = false;
         Display_Main();
